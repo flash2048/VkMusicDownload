@@ -1,0 +1,10 @@
+﻿<Window x:Class="VkMusicDownload.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Справка" Height="251" Width="397">
+    <Grid>
+        <TextBlock TextWrapping="Wrap" Margin="0,0,0,21"><Span><Run Text="При первом запуске приложения авторизуйтесь, введя свой логин и пароль, после авторизации введите имя пользователя либо его id, для получения списка композиций пользователя, либо имя группы или её id."/></Span><LineBreak/><Span><Run Text="Чтобы прослушать композицию, нажмите на её правой клавишей мыши."/></Span><LineBreak/><Span><Run Text="Чтобы скачать нужные композиции выделите их и нажмите &quot;Сохранить&quot;."/></Span><LineBreak/><Span><Run Text="При двойном щелчке на композиции будет сохранена выбранная композиция."/></Span><LineBreak/><Span><Run Text="При сохранении необходимо указать директорию для загрузки."/></Span></TextBlock>
+        <TextBlock Margin="0,0,7,0" TextWrapping="Wrap" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="306"><Run Text="http://flash2048.com     [приложение "/><Run Text="для обучения"/><Run Text="]"/></TextBlock>
+
+    </Grid>
+</Window>
