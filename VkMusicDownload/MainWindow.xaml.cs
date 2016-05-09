@@ -25,8 +25,8 @@ namespace VkMusicDownload
         public MainWindow()
         {
             InitializeComponent();
-            webBrouser.Visibility = Visibility.Visible;
-            webBrouser.Navigate(String.Format("https://oauth.vk.com/authorize?client_id={0}&scope={1}&redirect_uri={2}&display=page&response_type=token", ConfigurationSettings.AppSettings["VKAppId"], ConfigurationSettings.AppSettings["VKScope"], ConfigurationSettings.AppSettings["VKRedirectUri"]));
+            webBrowser.Visibility = Visibility.Visible;
+            webBrowser.Navigate(String.Format("https://oauth.vk.com/authorize?client_id={0}&scope={1}&redirect_uri={2}&display=page&response_type=token", ConfigurationSettings.AppSettings["VKAppId"], ConfigurationSettings.AppSettings["VKScope"], ConfigurationSettings.AppSettings["VKRedirectUri"]));
 
         }
 
@@ -114,7 +114,7 @@ namespace VkMusicDownload
 
         }
 
-        private void WebBrouserNavigated(object sender, NavigationEventArgs e)
+        private void WebBrowserNavigated(object sender, NavigationEventArgs e)
         {
             var clearUriFragment = e.Uri.Fragment.Replace("#", "").Trim();
             var parameters = HttpUtility.ParseQueryString(clearUriFragment);
@@ -122,7 +122,7 @@ namespace VkMusicDownload
             Vk.UserId = parameters.Get("user_id");
             if (Vk.AccessToken != null && Vk.UserId != null)
             {
-                webBrouser.Visibility = Visibility.Hidden;
+                webBrowser.Visibility = Visibility.Hidden;
             }
         }
 
