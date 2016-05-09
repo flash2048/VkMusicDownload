@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
 using VkMusicDownload.VkHelpers;
@@ -22,6 +23,18 @@ namespace VkMusicDownload
     {
         public AlbumResponse[] AllComposition { get; private set; }
         private readonly MediaPlayer _player = new MediaPlayer();
+
+        private static DispatcherTimer _timer;
+
+        private void OnTimedEvent(object sender, EventArgs e)
+        {
+            var totalSecounds = _player.NaturalDuration.TimeSpan.TotalSeconds;
+            var position = _player.Position.TotalSeconds;
+
+            var currentPosition = 100/totalSecounds*position;
+            progressMusic.Value = (int)currentPosition;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -65,7 +78,10 @@ namespace VkMusicDownload
                     users.response[0].last_name);
 
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private void LoadGroupCompositions(string groupId)
@@ -92,6 +108,7 @@ namespace VkMusicDownload
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -161,6 +178,7 @@ namespace VkMusicDownload
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -256,6 +274,14 @@ namespace VkMusicDownload
                 _player.Play();
                 compositionName.Text = String.Format("Играет: {0}", selected.title);
                 stopPlayer.IsEnabled = true;
+                progressMusic.IsEnabled = true;
+
+                _timer = new DispatcherTimer();
+                _timer.Interval = TimeSpan.FromSeconds(1);
+
+                _timer.Tick += OnTimedEvent;
+                _timer.Start();
+
             }
         }
 
@@ -263,6 +289,9 @@ namespace VkMusicDownload
         {
             _player.Stop();
             stopPlayer.IsEnabled = false;
+            progressMusic.IsEnabled = false;
+
+            _timer.Stop();
         }
 
         private void MenuItemClickHelp(object sender, RoutedEventArgs e)
@@ -293,5 +322,11 @@ namespace VkMusicDownload
             }
         }
 
+        private void progressMusic_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var musicLength = _player.NaturalDuration.TimeSpan.TotalSeconds;
+            _player.Position = new TimeSpan(0, 0, (int)(progressMusic.Value * (musicLength/100)));
+
+        }
     }
 }
